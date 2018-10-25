@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_carrera"
+            android:icon="@drawable/ic_school_black_24dp"
+            android:title="Carreras" />
+        <item
+            android:id="@+id/nav_asignatura"
+            android:icon="@drawable/ic_materias_icon"
+            android:title="Asignaturas" />
+        <item
+            android:id="@+id/nav_previa"
+            android:icon="@drawable/ic_call_split_black_24dp"
+            android:title="Previas" />
+        <item
+            android:id="@+id/nav_insc_cur"
+            android:icon="@drawable/ic_edit_black_24dp"
+            android:title="Inscripciones a curso" />
+        <item
+            android:id="@+id/nav_insc_exm"
+            android:icon="@drawable/ic_brush_black_24dp"
+            android:title="Inscripciones a examen" />
+    </group>
+
+    <item android:title="Usuario">
+        <menu>
+            <item
+                android:id="@+id/nav_perfil"
+                android:icon="@drawable/ic_account_circle_black_24dp"
+                android:title="perfil" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="salir" />
+        </menu>
+    </item>
+
+</menu>
