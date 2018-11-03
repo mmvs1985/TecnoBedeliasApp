@@ -1,24 +1,25 @@
 
 package edu.grupo2.desarrollo.tecnobedeliasapp.modelos;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Carrera {
+public class Carrera implements Serializable{
 
-    private Boolean activa;
+    //private Boolean activa;
     private List<AsignaturaCarrera> asignaturaCarrera = null;
     private Integer creditosMinimos;
     private String descripcion;
     private Integer id;
     private String nombre;
 
-    public Boolean getActiva() {
+    /*public Boolean getActiva() {
         return activa;
     }
 
     public void setActiva(Boolean activa) {
         this.activa = activa;
-    }
+    }*/
 
     public List<AsignaturaCarrera> getAsignaturaCarrera() {
         return asignaturaCarrera;

@@ -2,11 +2,15 @@
 package edu.grupo2.desarrollo.tecnobedeliasapp.modelos;
 
 
-public class EstudianteExamen {
+import java.io.Serializable;
+
+public class EstudianteExamen implements Serializable {
 
     private String estado;
     private Integer id;
     private Integer nota;
+    private String nombre;
+    private String apllido;
 
     public String getEstado() {
         return estado;
@@ -32,4 +36,19 @@ public class EstudianteExamen {
         this.nota = nota;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApllido() {
+        return apllido;
+    }
+
+    public void setApllido(String apllido) {
+        this.apllido = apllido;
+    }
 }

@@ -3,9 +3,13 @@ package edu.grupo2.desarrollo.tecnobedeliasapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -35,14 +39,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.grupo2.desarrollo.tecnobedeliasapp.api.ApiServiceInterface;
+import edu.grupo2.desarrollo.tecnobedeliasapp.dbSQLite.SQLiteHelper;
+import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.AsignaturaCarrera;
+import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Carrera;
+import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Curso;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.RespuestaApiLogin;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Usuario;
+import edu.grupo2.desarrollo.tecnobedeliasapp.dbSQLite.Constantes;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,13 +89,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
-
+    private SQLiteHelper connectordb;
+    //tokenloguedao usuario
+    //Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlc3R1ZGlhbnRlIiwiZXhwIjoxNTQxNjM1Mzk5LCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9FU1RVRElBTlRFIn1dfQ.h-MTuLus3z0kyi0L6y91Yr66U71Gs6I0aRBuNx_lN4SJneAgwmlKfB3X-tmA614EDcuHG6dfc4q47dyerwr9jA
+    //director
+    //Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaXJlIiwiZXhwIjoxNTQxNjM3NzMxLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9ESVJFQ1RPUiJ9XX0.kjLXmOtgOJd1U9es0_5rTEwQwSYevSqh_YdyPEon38nYgeAuh1PfPwsWZkU-1Pm9J3NPHpy3TmweuhybbwAsfw
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        ConfigSingletton sing=ConfigSingletton.getInstance();
+        if (getSharedPreferences("usuarioLogueado",MODE_PRIVATE).contains(Constantes.CAMPOUSERNAME))
+            {
+                String token=getSharedPreferences("usuarioLogueado",MODE_PRIVATE).getString("APIAUTH",null);
+                String username=getSharedPreferences("usuarioLogueado",MODE_PRIVATE).getString(Constantes.CAMPOUSERNAME,null);
+                Log.e(ETIQUETA,"SETEO EL USUARIO: "+username+" con token: "+token);
+                sing.setUsernameUsuarioLogueado(username);
+                sing.setTokenUsuarioLogueado(token);
+
+                traerUsuarioLogueado(sing.getRetro(),sing.getRetro().create(edu.grupo2.desarrollo.tecnobedeliasapp.api.ApiServiceInterface.class));
+
+                Intent in=new Intent(LoginActivity.this,MenuPrincipal.class);
+                startActivity(in);
+            }
+            else{
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -109,6 +139,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        }
     }
 
     private void populateAutoComplete() {
@@ -241,14 +272,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Log.e(ETIQUETA, "en respuesta nomb usr res: " + response.body().getUsername());
                         Log.e(ETIQUETA, "en respuesta token res: " + response.headers().get("Authorization"));
                         traerUsuarioLogueado(retro,interfaz);
-                        /*while (usrlg==null){
-                            try {
-                                Thread.sleep(3000);
-                                usrlg=traerUsuarioLogueado();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }}*/
-                        //Log.e(ETIQUETA, "apellido del usuario: " + logueado.getApellido());
+
                         if(logueado== null){
                             Log.e(ETIQUETA, "sige siendo null: " );;
                         }
@@ -472,6 +496,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                 if (response.isSuccessful()){
+                    connectordb= new SQLiteHelper(getApplicationContext(), Constantes.NOMBREBD,null,1);
 
                     Usuario r=response.body();
                     Log.e(ETIQUETA, "en respuesta RESULTADOfin: " + r.getEmail());
@@ -479,6 +504,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     //r=ConfigSingletton.getInstance().getUsuarioLogueado();
                     logueado =r;
                     Log.e(ETIQUETA, "y el apellido es..: " + logueado.getApellido());
+                    /*if(persisitirUsuario(r))
+                        Toast.makeText(getApplicationContext(),"se guardo correctamente: ",Toast.LENGTH_LONG).show();*/
+                    loguearUsuario(r);
+
+
                     Intent in=new Intent(LoginActivity.this,MenuPrincipal.class);
                     startActivity(in);
 
@@ -502,5 +532,79 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         //return r;
 
     }
+
+    private void loguearUsuario(Usuario usr){
+        SharedPreferences sp=getSharedPreferences("usuarioLogueado",MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = sp.edit();
+        spEditor.putInt(Constantes.CAMPOID,usr.getId());
+        spEditor.putString(Constantes.CAMPOAPELLIDO,usr.getApellido());
+        spEditor.putString(Constantes.CAMPOAPPTOKEN,usr.getAppToken());
+        spEditor.putString(Constantes.CAMPOCEDULA,usr.getCedula());
+        spEditor.putString(Constantes.CAMPOEMAIL,usr.getEmail());
+        spEditor.putString(Constantes.CAMPONOMBRE,usr.getNombre());
+        spEditor.putString(Constantes.CAMPOFNAC,usr.getFechaNacimiento());
+        spEditor.putString(Constantes.CAMPOPASSWORD,usr.getPassword());
+        spEditor.putString(Constantes.CAMPORESETTOKEN,usr.getResetToken());
+        spEditor.putString(Constantes.CAMPOUSERNAME,usr.getUsername());
+        spEditor.putString("APIAUTH",ConfigSingletton.getInstance().getTokenUsuarioLogueado());
+
+
+        spEditor.commit();
+        ArrayList<Carrera> carrerasUsr= (ArrayList<Carrera>)usr.getCarreras();//.get(0).getAsignaturaCarrera().get(1).getAsignatura().getCursos().get(0).getSemestre().toString();
+        ArrayList<AsignaturaCarrera> asigcarrerasUsr;
+        ArrayList<Curso> cursosUsr;
+        String topico;
+        for(Carrera c: carrerasUsr ){
+            asigcarrerasUsr=(ArrayList<AsignaturaCarrera>)c.getAsignaturaCarrera();
+            for(AsignaturaCarrera ac: asigcarrerasUsr ){
+                cursosUsr=(ArrayList<Curso>)ac.getAsignatura().getCursos();
+                for (Curso cu: cursosUsr){
+                    topico=ac.getAsignatura().getNombre().replace(" ","_") +"-"+String.valueOf(cu.getSemestre()+"-"+String.valueOf(cu.getAnio()));
+                    FirebaseMessaging.getInstance().subscribeToTopic(topico);
+                    Log.d(ETIQUETA,"me inscribi al topico: "+topico);
+                    //asignatura_semestre_año
+                }
+            }
+        }
+    }
+
+/*
+    private boolean persisitirUsuario(Usuario usr) {
+
+        SQLiteDatabase db= connectordb.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(Constantes.CAMPOID,usr.getId());
+        cv.put(Constantes.CAMPOAPELLIDO,usr.getApellido());
+        cv.put(Constantes.CAMPOAPPTOKEN,usr.getAppToken());
+        cv.put(Constantes.CAMPOCEDULA,usr.getCedula());
+        cv.put(Constantes.CAMPOEMAIL,usr.getEmail());
+        cv.put(Constantes.CAMPONOMBRE,usr.getNombre());
+        cv.put(Constantes.CAMPOFNAC,usr.getFechaNacimiento());
+        cv.put(Constantes.CAMPOPASSWORD,usr.getPassword());
+        cv.put(Constantes.CAMPORESETTOKEN,usr.getResetToken());
+        cv.put(Constantes.CAMPOUSERNAME,usr.getUsername());
+        long idResultante=db.insert(Constantes.TABLAUSUARIOS,Constantes.CAMPOID,cv);
+
+        Toast.makeText(getApplicationContext(),"se inserto con el id: "+idResultante,Toast.LENGTH_LONG).show();
+        db.close();
+        return (idResultante!=-1);
+    }*//*
+
+    private boolean consultarUsuario(){
+
+
+        SQLiteDatabase db=connectordb.getReadableDatabase();
+
+        String [] parametros=null;
+        String [] requeridos=null;
+
+
+
+
+        return true;
+
+    }*/
+
+
 }
 

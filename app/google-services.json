@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "131471541743",
+    "firebase_url": "https://tecnobedelias.firebaseio.com",
+    "project_id": "tecnobedelias",
+    "storage_bucket": "tecnobedelias.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131471541743:android:ba048d33b7498af5",
+        "android_client_info": {
+          "package_name": "edu.grupo2.desarrollo.tecnobedeliasapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131471541743-l86p5eimf60hje3drt6sh18c2qalqhdn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDyJA7FdmGCWUfiIIvanhmXyifCzzm2gg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

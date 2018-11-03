@@ -2,7 +2,9 @@
 package edu.grupo2.desarrollo.tecnobedeliasapp.modelos;
 
 
-public class AsignaturaCarrera {
+import java.io.Serializable;
+
+public class AsignaturaCarrera  implements Serializable {
 
     private Asignatura asignatura;
     private Integer creditos;

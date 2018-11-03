@@ -1,11 +1,12 @@
 package edu.grupo2.desarrollo.tecnobedeliasapp.modelos;
 
+import java.io.Serializable;
 import java.util.List;
 
 
-    public class Usuario {
+    public class Usuario  implements Serializable {
 
-        private Boolean activa;
+
         private String apellido;
         private String appToken;
         private List<Carrera> carreras = null;
@@ -13,18 +14,21 @@ import java.util.List;
         private String email;
         private List<EstudianteExamen> estudianteExamen = null;
         private String fechaNacimiento;
+        private String foto;
         private Integer id;
         private String nombre;
         private String password;
         private String resetToken;
         private String username;
+        //private Roles
 
-        public Boolean getActiva() {
-            return activa;
+
+        public String getFoto() {
+            return foto;
         }
 
-        public void setActiva(Boolean activa) {
-            this.activa = activa;
+        public void setFoto(String foto) {
+            this.foto = foto;
         }
 
         public String getApellido() {

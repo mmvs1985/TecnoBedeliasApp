@@ -53,8 +53,8 @@ public class NoticiaDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(NoticiaDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(NoticiaDetailFragment.ARG_ITEM_ID));
+            arguments.putSerializable(NoticiaDetailFragment.ARG_ITEM_ID,
+                    getIntent().getSerializableExtra(NoticiaDetailFragment.ARG_ITEM_ID));
             NoticiaDetailFragment fragment = new NoticiaDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

@@ -9,6 +9,7 @@
     tools:showIn="@layout/app_bar_menu_principal">
 
     <include
+        android:id="@+id/contenidofragmentmain"
         layout="@layout/activity_noticia_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

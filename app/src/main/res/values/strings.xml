@@ -26,4 +26,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="title_noticia_list">Noticias</string>
     <string name="title_noticia_detail">Noticia Detail</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_carrera_list">Carreras</string>
+    <string name="title_carrera_detail">Carrera Detail</string>
 </resources>
