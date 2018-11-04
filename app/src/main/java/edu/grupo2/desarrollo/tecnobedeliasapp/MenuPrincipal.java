@@ -31,6 +31,7 @@ import java.util.List;
 
 import edu.grupo2.desarrollo.tecnobedeliasapp.Fragments.CarrerasFragment;
 import edu.grupo2.desarrollo.tecnobedeliasapp.activities.CarreraListActivity;
+import edu.grupo2.desarrollo.tecnobedeliasapp.activities.Perfil;
 import edu.grupo2.desarrollo.tecnobedeliasapp.dbSQLite.Constantes;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Carrera;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Usuario;
@@ -137,6 +138,14 @@ public class MenuPrincipal extends AppCompatActivity
         } else if (id == R.id.nav_insc_exm) {
 
         } else if (id == R.id.nav_perfil) {
+            if(ConfigSingletton.getInstance().consultaUsuarioLogueado(getApplicationContext())==null){
+                Toast.makeText(getApplicationContext(),"no se obtubo el usuario",Toast.LENGTH_LONG).show();
+
+            }else {
+                Intent in5= new Intent(MenuPrincipal.this,Perfil.class);
+                startActivity(in5);
+            }
+
 
         } else if (id == R.id.nav_logout) {
             desloguear();

@@ -184,6 +184,7 @@ public class ConfigSingletton {
         usr.setPassword(sp.getString(Constantes.CAMPOPASSWORD,usr.getPassword()));
         usr.setResetToken(sp.getString(Constantes.CAMPORESETTOKEN,usr.getResetToken()));
         usr.setUsername(sp.getString(Constantes.CAMPOUSERNAME,usr.getUsername()));
+        usr.setFoto(sp.getString(Constantes.CAMPOFOTO,usr.getFoto()));
 
         //getActivity().
         //Toast.makeText(getActivity().getAplicationContext(),"usuariocargado",Toast.LENGTH_LONG).show();

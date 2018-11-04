@@ -31,4 +31,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_carrera_list">Carreras</string>
     <string name="title_carrera_detail">Carrera Detail</string>
+    <string name="tagnombre">nombre</string>
+    <string name="tagapellido">Apellido</string>
+    <string name="tvmuestra">textview</string>
+    <string name="fotocd">foto de perfil</string>
 </resources>

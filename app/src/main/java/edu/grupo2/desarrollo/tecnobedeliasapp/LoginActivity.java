@@ -546,6 +546,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         spEditor.putString(Constantes.CAMPOPASSWORD,usr.getPassword());
         spEditor.putString(Constantes.CAMPORESETTOKEN,usr.getResetToken());
         spEditor.putString(Constantes.CAMPOUSERNAME,usr.getUsername());
+        spEditor.putString(Constantes.CAMPOFOTO,usr.getFoto());
         spEditor.putString("APIAUTH",ConfigSingletton.getInstance().getTokenUsuarioLogueado());
 
 
