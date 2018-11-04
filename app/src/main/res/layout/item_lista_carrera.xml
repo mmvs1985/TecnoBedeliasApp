@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0"
+    android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/nombCarreratv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:text="s"
+            android:textColor="@android:color/holo_blue_dark" />
+
+        <!--<TextView
+            android:id="@+id/descripcionCarreratv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="clip_horizontal"
+            android:layout_weight="2"
+            android:text="a"
+            android:textColor="@android:color/holo_blue_dark" />-->
+
+
+    <TextView
+        android:id="@+id/creditost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_weight="3"
+        android:layout_margin="8dp"
+        android:text="creditos"
+        android:textColor="@android:color/holo_blue_dark" />
+
+</LinearLayout>
