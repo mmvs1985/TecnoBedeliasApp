@@ -3,8 +3,9 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Contraseña (opcional)</string>
-    <string name="action_sign_in">Iniciar sesión o registrarse</string>
+    <string name="prompt_username">Nombre de usuario</string>
+    <string name="prompt_password">Contraseña</string>
+    <string name="action_sign_in">Iniciar sesión </string>
     <string name="action_sign_in_short">Iniciar sesión</string>
     <string name="error_invalid_email">Email invalido</string>
     <string name="error_invalid_password">Contraseña demasiado corta</string>
@@ -18,7 +19,7 @@
     <string name="tab_text_3">Tab 3</string>
     <string name="action_settings">Configuracion</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="title_activity_menu_principal">Noticias</string>
+    <string name="title_activity_menu_principal">Bienvenido</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -26,6 +27,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="title_noticia_list">Noticias</string>
     <string name="title_noticia_detail">Noticia Detail</string>
+    <string name="title_activity_perfil">Perfil</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -35,4 +37,26 @@
     <string name="tagapellido">Apellido</string>
     <string name="tvmuestra">textview</string>
     <string name="fotocd">foto de perfil</string>
+    <string name="title_asignatura_list">Asignaturas</string>
+    <string name="title_asignatura_detail">Asignatura Detail</string>
+    <string name="title_carrerausuario_list">Elija su carrera..</string>
+    <string name="title_carrerausuario_detail">CarreraUsuario Detail</string>
+    <string name="title_asignaturacarrera_list">Elija su asignatura..</string>
+    <string name="title_asignaturacarrera_detail">AsignaturaCarrera Detail</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_examen_list">Examenes</string>
+    <string name="title_examen_detail">Examen Detail</string>
+    <string name="descripcion_logo">Logo de tecnobedelias</string>
+    <string name="calificaciones">Calificaciones</string>
+    <string name="salir">Salir</string>
+    <string name="perfil">Perfil</string>
+    <string name="notas">Notas</string>
+    <string name="usuario">Usuario</string>
+    <string name="desistir_a_examen">Desistir a examen</string>
+    <string name="inscripcion_a_examen">Inscripcion a examen</string>
+    <string name="desistir_a_curso">Desistir a curso</string>
+    <string name="inscripciones_a_curso">Inscripciones a curso</string>
+    <string name="asignaturas">Asignaturas</string>
+    <string name="carreras">Carreras</string>
+    <string name="no_anotado">no anotado</string>
 </resources>

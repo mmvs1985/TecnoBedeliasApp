@@ -7,7 +7,6 @@ import java.util.List;
 
 import edu.grupo2.desarrollo.tecnobedeliasapp.ConfigSingletton;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Carrera;
-import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.RespuestaListaCarreras;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,7 +14,7 @@ import retrofit2.Retrofit;
 
 public class ApiProvider {
     private final static String ETIQUETA="apiProvider";
-    ArrayList<Carrera> listacarrera;
+    private ArrayList<Carrera> listacarrera;
 
     private static ApiProvider ourInstance= new ApiProvider();
 
@@ -113,7 +112,7 @@ public class ApiProvider {
 
         Retrofit retro = ConfigSingletton.getInstance().getRetro();
 
-        ArrayList<Carrera> resultado;
+
 
         //creo y llamo a la api
         ApiServiceInterface interfaz= retro.create(edu.grupo2.desarrollo.tecnobedeliasapp.api.ApiServiceInterface.class);
@@ -127,7 +126,7 @@ public class ApiProvider {
             public void onResponse(Call<List<Carrera>> call, Response<List<Carrera>> response) {
                 if (response.isSuccessful()){
                     List<Carrera> r=response.body();
-                    listacarrera=(ArrayList)r;
+                    listacarrera=(ArrayList<Carrera>)r;
                     Log.e(ETIQUETA, "en respuesta lista carrera: " + r.size());
                     ConfigSingletton.getInstance().setCarreras(listacarrera);
 

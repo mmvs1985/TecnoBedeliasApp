@@ -1,8 +1,8 @@
-package edu.grupo2.desarrollo.tecnobedeliasapp.activities;
+package edu.grupo2.desarrollo.tecnobedeliasapp.activities.listarCarreras;
 
 import android.app.Activity;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import edu.grupo2.desarrollo.tecnobedeliasapp.R;
-
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Carrera;
 
 /**

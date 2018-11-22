@@ -1,6 +1,7 @@
 package edu.grupo2.desarrollo.tecnobedeliasapp;
 
 //import android.app.Fragment;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,10 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -19,23 +16,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.grupo2.desarrollo.tecnobedeliasapp.Fragments.CarrerasFragment;
-import edu.grupo2.desarrollo.tecnobedeliasapp.activities.CarreraListActivity;
+import edu.grupo2.desarrollo.tecnobedeliasapp.activities.Calificaciones;
+import edu.grupo2.desarrollo.tecnobedeliasapp.activities.InscripcionExamen.ExamenListActivity;
 import edu.grupo2.desarrollo.tecnobedeliasapp.activities.Perfil;
-import edu.grupo2.desarrollo.tecnobedeliasapp.dbSQLite.Constantes;
-import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Carrera;
+import edu.grupo2.desarrollo.tecnobedeliasapp.activities.incripcionCurso.AsignaturaCarreraListActivity;
+import edu.grupo2.desarrollo.tecnobedeliasapp.activities.listarAsignaturas.AsignaturaListActivity;
+import edu.grupo2.desarrollo.tecnobedeliasapp.activities.listarCarreras.CarreraListActivity;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Usuario;
-import edu.grupo2.desarrollo.tecnobedeliasapp.noticias.MiServiciodeMensajeriaFirebase;
 
 public class MenuPrincipal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, CarrerasFragment.OnFragmentInteractionListener {
@@ -104,6 +98,7 @@ public class MenuPrincipal extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Toast.makeText(getApplicationContext(),"ip: "+ConfigSingletton.getInstance().getUrlbase(),Toast.LENGTH_LONG).show();
             return true;
         }
 
@@ -127,22 +122,73 @@ public class MenuPrincipal extends AppCompatActivity
             }
             // Handle the camera action
         } else if (id == R.id.nav_asignatura) {
-            Intent in= new Intent(MenuPrincipal.this,NoticiaListActivity.class);
-            startActivity(in);
+            if(isOnline()) {
+                Intent in = new Intent(MenuPrincipal.this, AsignaturaListActivity.class);
+                startActivity(in);
+            }
+             else {
+                    Toast.makeText(getApplicationContext(),"No hay red",Toast.LENGTH_LONG).show();
+             }
 
-        } else if (id == R.id.nav_previa) {
-            Intent in2= new Intent(MenuPrincipal.this,MainActivity.class);
-            startActivity(in2);
-        } else if (id == R.id.nav_insc_cur) {
+
+            } /*else if (id == R.id.nav_previa) {
+            //Intent in2= new Intent(MenuPrincipal.this,MainActivity.class);
+            //startActivity(in2);
+        } */else if (id == R.id.nav_insc_cur) {
+            if(isOnline()) {
+                Intent in = new Intent(MenuPrincipal.this, AsignaturaCarreraListActivity.class);
+                in.putExtra("eleccion","inscribirCurso");
+                startActivity(in);
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"No hay red",Toast.LENGTH_LONG).show();
+            }
+
+        } else if (id == R.id.nav_desist_cur) {
+            if(isOnline()) {
+                Intent in = new Intent(MenuPrincipal.this, AsignaturaCarreraListActivity.class);
+                in.putExtra("eleccion","desistirCurso");
+                startActivity(in);
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"No hay red",Toast.LENGTH_LONG).show();
+            }
 
         } else if (id == R.id.nav_insc_exm) {
+            if(isOnline()) {
+                Intent in = new Intent(MenuPrincipal.this, ExamenListActivity.class);
+                in.putExtra("eleccion","inscribirExamen");
+                startActivity(in);
+            }
+            else {
+                Toast.makeText(getApplicationContext(),"No hay red",Toast.LENGTH_LONG).show();
+            }
 
-        } else if (id == R.id.nav_perfil) {
+        } else if (id == R.id.nav_desist_exm) {
+            if (isOnline()) {
+                Intent in = new Intent(MenuPrincipal.this, ExamenListActivity.class);
+                in.putExtra("eleccion","desistirExamen");
+                startActivity(in);
+            } else {
+                Toast.makeText(getApplicationContext(), "No hay red", Toast.LENGTH_LONG).show();
+            }
+
+        }else if (id == R.id.nav_perfil) {
             if(ConfigSingletton.getInstance().consultaUsuarioLogueado(getApplicationContext())==null){
                 Toast.makeText(getApplicationContext(),"no se obtubo el usuario",Toast.LENGTH_LONG).show();
 
             }else {
                 Intent in5= new Intent(MenuPrincipal.this,Perfil.class);
+                startActivity(in5);
+            }
+
+
+        }else if (id == R.id.nav_notas) {
+            if(ConfigSingletton.getInstance().consultaUsuarioLogueado(getApplicationContext())==null){
+                Toast.makeText(getApplicationContext(),"no se obtubo el usuario",Toast.LENGTH_LONG).show();
+
+            }else {
+                Intent in5= new Intent(MenuPrincipal.this, Calificaciones.class);
                 startActivity(in5);
             }
 

@@ -72,9 +72,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.grupo2.desarrollo.tecnobedeliasapp.NoticiaListActivity" />
         </activity>
-        <activity android:name=".ListaCarreras" />
+        <!--<activity android:name=".ListaCarreras" />-->
         <activity
-            android:name=".activities.CarreraListActivity"
+            android:name=".activities.listarCarreras.CarreraListActivity"
             android:label="@string/title_carrera_list"
             android:parentActivityName=".MenuPrincipal"
             android:theme="@style/AppTheme.NoActionBar">
@@ -99,15 +99,101 @@
         </service>
         -->
         <activity
-            android:name=".activities.CarreraDetailActivity"
+            android:name=".activities.listarCarreras.CarreraDetailActivity"
             android:label="@string/title_carrera_detail"
-            android:parentActivityName=".activities.CarreraListActivity"
+            android:parentActivityName=".activities.listarCarreras.CarreraListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.activities.CarreraListActivity" />
+                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.activities.listarCarreras.CarreraListActivity" />
         </activity>
-        <activity android:name=".activities.Perfil"></activity>
+        <activity
+            android:name=".activities.Perfil"
+            android:label="@string/title_activity_perfil"
+            android:parentActivityName=".MenuPrincipal"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.MenuPrincipal" />
+            >
+            >
+        </activity>
+        <activity
+            android:name=".activities.listarAsignaturas.AsignaturaListActivity"
+            android:label="@string/title_asignatura_list"
+            android:parentActivityName=".MenuPrincipal"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.MenuPrincipal" />
+        </activity>
+        <activity
+            android:name=".activities.listarAsignaturas.AsignaturaDetailActivity"
+            android:label="@string/title_asignatura_detail"
+            android:parentActivityName=".activities.listarAsignaturas.AsignaturaListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.activities.listarAsignaturas.AsignaturaListActivity" />
+        </activity>
+        <activity
+            android:name=".activities.incripcionCurso.CarreraUsuarioListActivity"
+            android:label="@string/title_carrerausuario_list"
+            android:parentActivityName=".MenuPrincipal"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.MenuPrincipal" />
+        </activity>
+        <activity
+            android:name=".activities.incripcionCurso.AsignaturaCarreraListActivity"
+            android:label="@string/title_asignaturacarrera_list"
+            android:parentActivityName=".MenuPrincipal"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.MenuPrincipal" />
+        </activity>
+        <activity
+            android:name=".activities.incripcionCurso.AsignaturaCarreraDetailActivity"
+            android:label="@string/title_asignaturacarrera_detail"
+            android:parentActivityName=".MenuPrincipal"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.MenuPrincipal" />
+        </activity>
+        <activity
+            android:name=".activities.Calificaciones"
+            android:label="@string/calificaciones"
+            android:parentActivityName=".MenuPrincipal"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.MenuPrincipal" />
+        </activity>
+       <!-- <activity
+            android:name=".prueba.Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar" />-->
+        <activity
+            android:name=".activities.InscripcionExamen.ExamenListActivity"
+            android:label="@string/title_examen_list"
+            android:parentActivityName=".MenuPrincipal"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.MenuPrincipal" />
+        </activity>
+        <activity
+            android:name=".activities.InscripcionExamen.ExamenDetailActivity"
+            android:label="@string/title_examen_detail"
+            android:parentActivityName=".activities.InscripcionExamen.ExamenListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.grupo2.desarrollo.tecnobedeliasapp.activities.InscripcionExamen.ExamenListActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -8,11 +8,11 @@
     tools:context=".MenuPrincipal"
     tools:showIn="@layout/app_bar_menu_principal">
 
-    <include
-        android:id="@+id/contenidofragmentmain"
-        layout="@layout/activity_noticia_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/descripcion_logo"
+        android:src="@drawable/tecnologotipo2transp"
+        android:alpha="0.7"/>
 
-    </include>
 </android.support.design.widget.CoordinatorLayout>

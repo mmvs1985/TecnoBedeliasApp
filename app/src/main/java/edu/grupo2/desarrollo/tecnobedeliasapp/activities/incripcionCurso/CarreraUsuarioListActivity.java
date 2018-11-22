@@ -1,65 +1,67 @@
-package edu.grupo2.desarrollo.tecnobedeliasapp.activities;
+package edu.grupo2.desarrollo.tecnobedeliasapp.activities.incripcionCurso;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
-import android.view.MenuItem;
 
+import java.util.ArrayList;
 
 import edu.grupo2.desarrollo.tecnobedeliasapp.ConfigSingletton;
 import edu.grupo2.desarrollo.tecnobedeliasapp.R;
-
-
-import edu.grupo2.desarrollo.tecnobedeliasapp.api.ApiServiceInterface;
+import edu.grupo2.desarrollo.tecnobedeliasapp.activities.listarCarreras.CarreraDetailFragment;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Carrera;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
-import java.util.ArrayList;
-import java.util.List;
+import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Curso;
 
 /**
- * An activity representing a list of Carreras. This activity
+ * An activity representing a list of CarrerasUsuario. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link CarreraDetailActivity} representing
+ * lead to a  representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class CarreraListActivity extends AppCompatActivity {
+public class CarreraUsuarioListActivity extends AppCompatActivity {
 
-    SimpleItemRecyclerViewAdapter adaptador;
-    ArrayList<Carrera> listacarrera;
+    CarreraUsuarioListActivity.SimpleItemRecyclerViewAdapter adaptador;
+    private ArrayList<Carrera> listacarrera;
+    private ArrayList<Curso> listacurso;
+
+    private String seleccion;
     private static final String ETIQUETA = "carreralista";
+
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
-    private boolean mTwoPane;
+    //private boolean mTwoPane;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_carrera_list);
+        setContentView(R.layout.activity_carrerausuario_list);
+        seleccion = getIntent().getStringExtra("eleccion");
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -67,15 +69,15 @@ public class CarreraListActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        if (findViewById(R.id.carrera_detail_container) != null) {
+       /* if (findViewById(R.id.carrerausuario_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
-        }
+        }*/
 
-        View recyclerView = findViewById(R.id.carrera_list);
+        View recyclerView = findViewById(R.id.carrerausuario_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
     }
@@ -99,52 +101,61 @@ public class CarreraListActivity extends AppCompatActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         listacarrera=new ArrayList<>();
-        obtenerListaTodaCarrera();
-        adaptador=new SimpleItemRecyclerViewAdapter(this, listacarrera, mTwoPane);
+        obtenerCarrerasDelUsuario();
+        adaptador= new SimpleItemRecyclerViewAdapter(this, listacarrera,seleccion);
         recyclerView.setAdapter(adaptador);
+
+        //con esto pongo la linea divisoria entre los items
+        LinearLayoutManager lmgr=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(lmgr);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this,lmgr.getOrientation()));
     }
+
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final CarreraListActivity mParentActivity;
+        private final CarreraUsuarioListActivity mParentActivity;
         private final ArrayList<Carrera> mValues;
-        private final boolean mTwoPane;
+        private final String seleccion;
+       // private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Carrera item = (Carrera) view.getTag();
-                Log.e(ETIQUETA,"DATOS DE LA CARRERA"+item.getId()+item.getCreditosMinimos()+item.getDescripcion()+item.getNombre());
-                if (mTwoPane) {
+                Log.e(ETIQUETA,"DATOS DE LA CARRERA: "+item.getId()+item.getCreditosMinimos()+item.getDescripcion()+item.getNombre());
+                /*if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putSerializable(CarreraDetailFragment.ARG_ITEM_ID, item);
-                    CarreraDetailFragment fragment = new CarreraDetailFragment();
+                    CarreraUsuarioDetailFragment fragment = new CarreraUsuarioDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.carrera_detail_container, fragment)
+                            .replace(R.id.carrerausuario_detail_container, fragment)
                             .commit();
-                } else {
+                } else {*/
+
                     Context context = view.getContext();
-                    Intent intent = new Intent(context, CarreraDetailActivity.class);
+                    Intent intent = new Intent(context, AsignaturaCarreraListActivity.class);
+                    intent.putExtra("eleccion",seleccion);
                     intent.putExtra(CarreraDetailFragment.ARG_ITEM_ID, item);
 
                     context.startActivity(intent);
-                }
+                //}
             }
         };
 
-        SimpleItemRecyclerViewAdapter(CarreraListActivity parent,
-                                      ArrayList<Carrera> items,
-                                      boolean twoPane) {
+        SimpleItemRecyclerViewAdapter(CarreraUsuarioListActivity parent,
+                                      ArrayList<Carrera> items, String seleccion) {
             mValues = items;
             mParentActivity = parent;
-            mTwoPane = twoPane;
+            this.seleccion=seleccion;
+           // mTwoPane = twoPane;
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.carrera_list_content, parent, false);
+                    .inflate(R.layout.carrerausuario_list_content, parent, false);
             return new ViewHolder(view);
         }
 
@@ -173,53 +184,10 @@ public class CarreraListActivity extends AppCompatActivity {
             }
         }
     }
+    private void obtenerCarrerasDelUsuario() {
 
-    private void obtenerListaTodaCarrera() {
-        // Log.e(ETIQUETA, "intento logear con usr y cpass: "+username+" "+pass );
-        //final Context conte=cont;
+        listacarrera= (ArrayList<Carrera>) ConfigSingletton.getInstance().getUsuarioLogueado().getCarreras();
 
-        Retrofit retro = ConfigSingletton.getInstance().getRetro();
-
-        ArrayList<Carrera> resultado;
-
-        //creo y llamo a la api
-        ApiServiceInterface interfaz= retro.create(edu.grupo2.desarrollo.tecnobedeliasapp.api.ApiServiceInterface.class);
-        String token=ConfigSingletton.getInstance().getTokenUsuarioLogueado();
-        Log.e(ETIQUETA, "token del usuario logueado: "+token);
-
-        Call<List<Carrera>> respuestacall=interfaz.obtenerListacarrera(token);
-        //al ponerse enqueue se realiza asyncronicamente.
-        respuestacall.enqueue(new Callback<List<Carrera>>() {
-            @Override
-            public void onResponse(Call<List<Carrera>> call, Response<List<Carrera>> response) {
-
-                if (response.isSuccessful()){
-                    List<Carrera> r=response.body();
-
-
-                    listacarrera.addAll(r);
-                    Log.e(ETIQUETA, "en respuesta lista carrera: " + r.size());
-                    for(Carrera c:listacarrera){
-                        Log.e(ETIQUETA, "lista carrera: " + c.getNombre()+" desc: "+c.getDescripcion()+" creditos: "+c.getCreditosMinimos());
-                    }
-                    ConfigSingletton.getInstance().setCarreras(listacarrera);
-                    adaptador.notifyDataSetChanged();
-                }
-                else{
-
-                    Log.e(ETIQUETA, "en respuesta lista Carrera no exitosa ");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Carrera>> call, Throwable t) {
-                //Toast.makeText(conte.getApplicationContext(), "error de comunicacion", Toast.LENGTH_SHORT).show();
-                // showProgress(false);
-                Log.e(ETIQUETA, "en falla:" + t.getMessage());
-            }
-        });
-
-        // return listacarrera;
 
     }
 }

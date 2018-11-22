@@ -2,14 +2,14 @@ package edu.grupo2.desarrollo.tecnobedeliasapp.activities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.io.InputStream;
 
 import edu.grupo2.desarrollo.tecnobedeliasapp.ConfigSingletton;
 import edu.grupo2.desarrollo.tecnobedeliasapp.R;
@@ -24,6 +24,13 @@ public class Perfil extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_perfil);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(getTitle());
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         fotoiv=(ImageView)findViewById(R.id.fotoperfiliv);
         nombre=(TextView)findViewById(R.id.nombretv);

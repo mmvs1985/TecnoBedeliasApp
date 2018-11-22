@@ -16,7 +16,13 @@ public class Curso  implements Serializable {
     private Integer semestre;
 
 
+    public String getNombreAsignatura() {
+        return nombreAsignatura;
+    }
 
+    public void setNombreAsignatura(String nombreAsignatura) {
+        this.nombreAsignatura = nombreAsignatura;
+    }
 
     public Integer getId() {
         return id;

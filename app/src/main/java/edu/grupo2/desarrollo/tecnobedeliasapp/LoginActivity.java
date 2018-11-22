@@ -3,29 +3,24 @@ package edu.grupo2.desarrollo.tecnobedeliasapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.ContentValues;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -46,14 +41,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.grupo2.desarrollo.tecnobedeliasapp.api.ApiServiceInterface;
+import edu.grupo2.desarrollo.tecnobedeliasapp.dbSQLite.Constantes;
 import edu.grupo2.desarrollo.tecnobedeliasapp.dbSQLite.SQLiteHelper;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.AsignaturaCarrera;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Carrera;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Curso;
+import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Examen;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.RespuestaApiLogin;
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Usuario;
-import edu.grupo2.desarrollo.tecnobedeliasapp.dbSQLite.Constantes;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -84,6 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserLoginTask mAuthTask = null;
     final String  ETIQUETA="intentoLogin";
     private Usuario logueado;
+    //private ArrayList<Examen>listaexamen;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -308,10 +304,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
+
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
@@ -554,11 +547,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         ArrayList<Carrera> carrerasUsr= (ArrayList<Carrera>)usr.getCarreras();//.get(0).getAsignaturaCarrera().get(1).getAsignatura().getCursos().get(0).getSemestre().toString();
         ArrayList<AsignaturaCarrera> asigcarrerasUsr;
         ArrayList<Curso> cursosUsr;
+
+
+        registrarATopicoDeExamenesYaanotado();
         String topico;
+
+
+
         for(Carrera c: carrerasUsr ){
             asigcarrerasUsr=(ArrayList<AsignaturaCarrera>)c.getAsignaturaCarrera();
             for(AsignaturaCarrera ac: asigcarrerasUsr ){
                 cursosUsr=(ArrayList<Curso>)ac.getAsignatura().getCursos();
+
                 for (Curso cu: cursosUsr){
                     topico=ac.getAsignatura().getNombre().replace(" ","_") +"-"+String.valueOf(cu.getSemestre()+"-"+String.valueOf(cu.getAnio()));
                     FirebaseMessaging.getInstance().subscribeToTopic(topico);
@@ -567,6 +567,60 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
         }
+//        Log.e(ETIQUETA, "lista examenes pre for: " + listaexamen.size());
+
+    }
+
+    private void registrarATopicoDeExamenesYaanotado() {
+
+        Retrofit retro = ConfigSingletton.getInstance().getRetro();
+        //creo y llamo a la api
+        final ArrayList<Examen> retorno=new ArrayList<>();
+
+
+        ApiServiceInterface interfaz= retro.create(edu.grupo2.desarrollo.tecnobedeliasapp.api.ApiServiceInterface.class);
+
+        String token=ConfigSingletton.getInstance().getTokenUsuarioLogueado();
+        Log.e(ETIQUETA, "token del usuario logueado: "+token);
+
+        Call<List<Examen>> respuestacall=interfaz.consultaExamenes(token);
+        //al ponerse enqueue se realiza asyncronicamente.
+        respuestacall.enqueue(new Callback<List<Examen>>() {
+            @Override
+            public void onResponse(Call<List<Examen>> call, Response<List<Examen>> response) {
+
+                if (response.isSuccessful()){
+                    List<Examen> r=response.body();
+                    String topico;
+                    Log.e(ETIQUETA, "en respuesta lista examenes: " + r.size());
+                    for (Examen e:r){
+
+                        topico = e.getNombreAsignatura().replace(" ","_") +"-examen-"+e.id;
+                        FirebaseMessaging.getInstance().subscribeToTopic(topico);
+                        Log.d(ETIQUETA,"me inscribi al topico: "+topico);
+                        Log.e(ETIQUETA, "lista examen: nombreAsig: " + e.nombreAsignatura + " fecha: "+e.fecha+" hora: "+e.hora);
+
+                    }
+
+                    //ConfigSingletton.getInstance().setCarreras(listacarrera);
+                   // adaptador.notifyDataSetChanged();
+                }
+                else{
+
+                    Log.e(ETIQUETA, "en respuesta lista examen no exitosa "+response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Examen>> call, Throwable t) {
+                //Toast.makeText(conte.getApplicationContext(), "error de comunicacion", Toast.LENGTH_SHORT).show();
+                // showProgress(false);
+                Log.e(ETIQUETA, "en falla:" + t.getMessage());
+            }
+        });
+
+
+
     }
 
 /*

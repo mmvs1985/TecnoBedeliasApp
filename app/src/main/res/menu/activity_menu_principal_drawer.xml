@@ -7,35 +7,49 @@
         <item
             android:id="@+id/nav_carrera"
             android:icon="@drawable/ic_school_black_24dp"
-            android:title="Carreras" />
+            android:title="@string/carreras" />
         <item
             android:id="@+id/nav_asignatura"
             android:icon="@drawable/ic_materias_icon"
-            android:title="Asignaturas" />
-        <item
+            android:title="@string/asignaturas" />
+        <!--<item
             android:id="@+id/nav_previa"
             android:icon="@drawable/ic_call_split_black_24dp"
-            android:title="Previas" />
+            android:title="Previas" />-->
         <item
             android:id="@+id/nav_insc_cur"
             android:icon="@drawable/ic_edit_black_24dp"
-            android:title="Inscripciones a curso" />
+            android:title="@string/inscripciones_a_curso" />
+
+        <item
+            android:id="@+id/nav_desist_cur"
+            android:icon="@drawable/ic_desistir_curso"
+            android:title="@string/desistir_a_curso" />
         <item
             android:id="@+id/nav_insc_exm"
             android:icon="@drawable/ic_brush_black_24dp"
-            android:title="Inscripciones a examen" />
+            android:title="@string/inscripcion_a_examen" />
+        <item
+            android:id="@+id/nav_desist_exm"
+            android:icon="@drawable/ic_desistir_examen"
+            android:title="@string/desistir_a_examen" />
     </group>
 
-    <item android:title="Usuario">
+    <item android:title="@string/usuario">
         <menu>
+
+            <item
+                android:id="@+id/nav_notas"
+                android:icon="@drawable/ic_notas"
+                android:title="@string/notas" />
             <item
                 android:id="@+id/nav_perfil"
                 android:icon="@drawable/ic_account_circle_black_24dp"
-                android:title="perfil" />
+                android:title="@string/perfil" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"
-                android:title="salir" />
+                android:title="@string/salir" />
         </menu>
     </item>
 

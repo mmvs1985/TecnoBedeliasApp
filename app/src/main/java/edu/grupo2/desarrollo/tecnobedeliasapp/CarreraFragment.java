@@ -3,7 +3,6 @@ package edu.grupo2.desarrollo.tecnobedeliasapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,12 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import edu.grupo2.desarrollo.tecnobedeliasapp.api.ApiProvider;
+import java.util.ArrayList;
 
 import edu.grupo2.desarrollo.tecnobedeliasapp.modelos.Carrera;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
